@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'
+import userReducer from './slices/userSlice';
 
-import userReducer from './slices/userSlice'; // Import du reducer
+const storage = {
+  getItem: (key) => Promise.resolve(localStorage.getItem(key)),
+  setItem: (key, value) => Promise.resolve(localStorage.setItem(key, value)),
+  removeItem: (key) => Promise.resolve(localStorage.removeItem(key)),
+};
 
-// 2. Configuration de la persistence
 const persistConfig = {
   key: 'respawn',
   storage
@@ -18,6 +20,5 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 });
-
 
 export const persistor = persistStore(store)
