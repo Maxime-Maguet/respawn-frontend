@@ -8,15 +8,15 @@ export const signup = async (email, username, password) => {
       password,
     }
   );
-  return data
+  return data.data
 }
 
-export const signin = async (username, password) => {
+export const signin = async ({ username, password }) => {
   const { data } = await respawnAPI.post('/auth/signin',
     {
       username,
       password,
     }
   );
-  return data
+  return data.data
 } 
