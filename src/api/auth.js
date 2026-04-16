@@ -1,6 +1,6 @@
 import respawnAPI from "./axiosInstance";
 
-export const signup = async (email, username, password) => {
+export const signup = async ({ email, username, password }) => {
   const { data } = await respawnAPI.post("/auth/signup",
     {
       email,
