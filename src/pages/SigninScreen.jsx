@@ -82,13 +82,14 @@ export default function Signin() {
               placeholder={"Mot de passe"}
             />
           </div>
+          <ErrorBox errors={errors} />
           <Button
             text={"Se Connecter"}
             type="button"
             onClick={handleSignin}
-            className="my-6"
+            className="my-4"
           ></Button>
-          <div className="flex-row flex items-center gap-4 my-4">
+          <div className="flex-row flex items-center gap-4 my-6">
             <div className="flex-1 h-0.5 bg-[#2D4A63] justify-center"></div>
             <p className="text-[#94A3B8]">OU</p>
             <div className="flex-1 h-0.5 bg-[#2D4A63] justify-center"></div>
@@ -97,12 +98,11 @@ export default function Signin() {
             Vous n'avez pas de compte ? <br />
             <Link
               to="/signup"
-              className="text-[#7C3AED] mt-4 hover:text-[#6D28D9]  transition-colors duration-300 "
+              className="text-[#7C3AED] hover:text-[#9055ee]  transition-colors duration-300"
             >
               Créer un compte →
             </Link>
           </p>
-          <ErrorBox errors={errors} />
         </Card>
       </div>
     </div>
