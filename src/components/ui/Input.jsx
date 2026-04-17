@@ -1,4 +1,11 @@
-export default function Input({ label, type, value, onChange, placeholder }) {
+export default function Input({
+  label,
+  type,
+  value,
+  onChange,
+  placeholder,
+  name,
+}) {
   return (
     <div>
       <label className="text-xs text-[#94A3B8]">{label}</label>
@@ -8,6 +15,7 @@ export default function Input({ label, type, value, onChange, placeholder }) {
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        name={name}
         autoComplete="off"
       ></input>
     </div>
