@@ -11,3 +11,7 @@ export const discoverGames = async ({ type }) => {
   const { data } = await respawnAPI.get("/game/discover", { params: { type } });
   return data;
 };
+export const selectedGame = async ({ id }) => {
+  const { data } = await respawnAPI.get(`/game/${id}`);
+  return data;
+};
