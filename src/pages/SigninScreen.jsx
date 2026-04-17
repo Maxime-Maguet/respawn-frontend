@@ -46,9 +46,7 @@ export default function Signin() {
           RESPAWN
         </h1>
         <p className={" text-center text-sm  text-[#F1F5F8] tracking-wide "}>
-          Votre univers gaming,
-          <br />
-          tout en un seul endroit.
+          Votre univers gaming, tout en un seul endroit.
         </p>
         <div className="w-10 h-0.5 bg-violet-500"></div>
         <p className="text-sm text-[#94A3B8] font-normal text-center px-16 italic ">
