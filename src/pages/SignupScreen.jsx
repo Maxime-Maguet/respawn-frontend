@@ -28,7 +28,7 @@ export default function Signup() {
     onSuccess: (data) => {
       console.log("signupScreen", data);
       dispatch(login(data));
-      navigate("/home");
+      navigate("/Home");
     },
     onError: (error) => {
       setErrors(error.response.data.errors.map((err) => err.msg));

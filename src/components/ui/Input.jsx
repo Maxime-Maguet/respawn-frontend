@@ -5,6 +5,7 @@ export default function Input({
   onChange,
   placeholder,
   name,
+  onKeyDown,
 }) {
   return (
     <div>
@@ -16,6 +17,7 @@ export default function Input({
         onChange={onChange}
         placeholder={placeholder}
         name={name}
+        onKeyDown={onKeyDown}
         autoComplete="off"
       ></input>
     </div>

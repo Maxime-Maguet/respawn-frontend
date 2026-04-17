@@ -23,7 +23,7 @@ export default function Signin() {
     onSuccess: (data) => {
       console.log("signinScreen", data);
       dispatch(login(data));
-      navigate("/home");
+      navigate("/Home");
     },
     onError: (error) => {
       setErrors(error.response.data.errors.map((err) => err.msg));
