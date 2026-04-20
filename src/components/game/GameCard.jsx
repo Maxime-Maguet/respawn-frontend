@@ -1,12 +1,18 @@
+import { useNavigate } from "react-router-dom";
+
 export default function GameCard({
-  rawgID,
+  rawgId,
   title,
   released,
   backgroundImage,
   genre,
 }) {
+  const navigate = useNavigate();
   return (
-    <div className="rounded-xl overflow-hidden border border-[#1a2d40] cursor-pointer hover:-translate-y-2 transition-all duration-500 relative">
+    <div
+      onClick={() => navigate(`/game/${rawgId}`)}
+      className="rounded-xl overflow-hidden border border-[#1a2d40] cursor-pointer hover:-translate-y-2 transition-all duration-500 relative"
+    >
       <div
         className="h-40 bg-cover bg-center w-full "
         style={{ backgroundImage: `url(${backgroundImage})` }}
