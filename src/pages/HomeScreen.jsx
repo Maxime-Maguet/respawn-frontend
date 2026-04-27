@@ -50,9 +50,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-row min-h-screen bg-[#060a0f]">
-      <SideBar></SideBar>
+      <SideBar />
       <div className="flex flex-col flex-1">
-        <TopBar onSearch={handleSearch}></TopBar>
+        <TopBar onSearch={handleSearch} />
         <div className="h-13 mx-auto w-fit bg-[#0d1520] border border-[#1a2d40] rounded-lg  text-[#EF4444] text-xs flex mt-6 px-2">
           <div className="flex items-center justify-center">
             {navItems.map((item) => (

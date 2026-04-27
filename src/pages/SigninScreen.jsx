@@ -85,7 +85,7 @@ export default function Signin() {
             text={"Se Connecter"}
             type="button"
             onClick={handleSignin}
-            className="my-4"
+            className="my-4 w-full"
           ></Button>
           <div className="flex-row flex items-center gap-4 my-6">
             <div className="flex-1 h-0.5 bg-[#2D4A63] justify-center"></div>

@@ -105,7 +105,7 @@ export default function Signup() {
             text={"Créer mon compte"}
             type="button"
             onClick={handleSignup}
-            className="my-4"
+            className="my-4 w-full "
           ></Button>
           <p className="text-sm  text-[#7b8799] tracking-wide ">
             Vous avez déjà un compte ? <br />
