@@ -9,7 +9,6 @@ const respawnAPI = axios.create({
 
 respawnAPI.interceptors.request.use((config) => {
   const token = store.getState().user.value.token;
-  console.log(token);
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;

@@ -4,6 +4,7 @@ import Signup from "./pages/SignupScreen";
 import Signin from "./pages/SigninScreen";
 import Home from "./pages/HomeScreen";
 import GameScreen from "./pages/GameScreen";
+import LibraryScreen from "./pages/LibraryScreen";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/game/:id" element={<GameScreen />} />
+        <Route path="/library" element={<LibraryScreen />} />
       </Routes>
     </>
   );

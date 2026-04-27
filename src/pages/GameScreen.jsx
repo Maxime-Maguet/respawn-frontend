@@ -72,8 +72,6 @@ export default function GameScreen() {
       </div>
     );
 
-  console.log(libraryData);
-
   return (
     <div className="flex h-screen bg-[#060a0f]">
       <SideBar />
@@ -119,12 +117,14 @@ export default function GameScreen() {
               >
                 {data?.data?.description}
               </p>
-              <button
-                className="mt-2 block text-[#a78bfa] hover:text-violet-300 text-xs tracking-wider transition-colors duration-150 cursor-pointer active:scale-95"
-                onClick={() => setIsExpanded((prev) => !prev)}
-              >
-                {!isExpanded ? "Lire la suite" : "Réduire"}
-              </button>
+              {data?.data?.description?.length > 600 && (
+                <button
+                  className="mt-2 block text-[#a78bfa] hover:text-violet-300 text-xs tracking-wider transition-colors duration-150 cursor-pointer active:scale-95"
+                  onClick={() => setIsExpanded((prev) => !prev)}
+                >
+                  {!isExpanded ? "Lire la suite" : "Réduire"}
+                </button>
+              )}
             </div>
 
             {/* Colonne droite - infos */}
