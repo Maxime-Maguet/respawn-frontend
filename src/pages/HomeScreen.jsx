@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { discoverGames } from "../api/game";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SideBar from "../components/layout/SideBar";
 import TopBar from "../components/layout/TopBar";
 import GameCard from "../components/game/GameCard";
 import { searchGames } from "../api/game";
 
 export default function Home() {
+  let location = useLocation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("trending");
   const [errors, setErrors] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(
+    location.state?.searchResults ?? [],
+  );
 
   const navItems = [
     { value: "trending", label: "Tendances" },
@@ -32,7 +35,7 @@ export default function Home() {
   });
 
   const handleSearch = (searchResults) => {
-    mutation.mutate({ page_size: 20, search: searchResults });
+    mutation.mutate({ page_size: 50, search: searchResults });
   };
 
   const { data, isError, isLoading } = useQuery({
@@ -48,7 +51,7 @@ export default function Home() {
   return (
     <div className="flex flex-row min-h-screen bg-[#060a0f]">
       <SideBar></SideBar>
-      <div className="flex flex-col flex-1 ">
+      <div className="flex flex-col flex-1">
         <TopBar onSearch={handleSearch}></TopBar>
         <div className="h-13 mx-auto w-fit bg-[#0d1520] border border-[#1a2d40] rounded-lg  text-[#EF4444] text-xs flex mt-6 px-2">
           <div className="flex items-center justify-center">
