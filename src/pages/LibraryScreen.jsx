@@ -106,13 +106,11 @@ export default function LibraryScreen() {
         {filteredGames?.map((e) => (
           <LibraryCard
             key={e.game.rawgId}
-            _id={e._id}
+            rawgId={e.game.rawgId}
             status={e.status}
             backgroundImage={e.game.backgroundImage}
             title={e.game.title}
             genre={e.game.genres.map((g) => g?.name)}
-            onDelete={() => handleDelete(e._id)}
-            onStatusChange={(s) => handleStatusChange(e._id, s)}
           />
         ))}
       </div>
