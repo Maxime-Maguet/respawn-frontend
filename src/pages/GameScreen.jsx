@@ -8,7 +8,6 @@ import {
   updateLibrary,
   deleteLibrary,
 } from "../api/library";
-
 import Button from "../components/ui/Button";
 
 export default function GameScreen() {
@@ -16,8 +15,9 @@ export default function GameScreen() {
   const queryClient = useQueryClient();
   const [errors, setErrors] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  const { data, isError, isLoading } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["game", params.id],
     queryFn: () => selectedGame({ id: params.id }),
     enabled: !!params.id,
@@ -27,6 +27,8 @@ export default function GameScreen() {
     queryKey: ["library"],
     queryFn: () => getLibrary(),
   });
+
+  const screenshots = data?.data?.screenshots ?? [];
 
   const isAdded =
     libraryData?.allData.some((g) => g.game?.rawgId === data?.data?.rawgId) ??
@@ -46,7 +48,8 @@ export default function GameScreen() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, status }) => updateLibrary(id, { status }),
+    mutationFn: ({ id, status, rating }) =>
+      updateLibrary(id, { status, rating }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["library"] }),
     onError: (err) => console.error(err),
   });
@@ -63,8 +66,12 @@ export default function GameScreen() {
   };
 
   const handleDelete = (id) => deleteMutation.mutate(id);
+
   const handleStatusChange = (id, status) =>
     updateMutation.mutate({ id, status });
+
+  const handleRatingChange = (id, rating) =>
+    updateMutation.mutate({ id, rating });
 
   if (isLoading)
     return (
@@ -83,15 +90,15 @@ export default function GameScreen() {
         />
         <img
           src={data?.data?.backgroundImage}
-          className="relative w-full h-full object-cover object-[center_30%] max-w-7xl mx-auto"
+          className="relative w-full h-full object-cover object-[center_30%]"
           alt="preview"
         />
         <div className="absolute inset-y-0 left-0 w-32 bg-linear-to-r from-[#060a0f] to-transparent pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-32 bg-linear-to-l from-[#060a0f] to-transparent pointer-events-none" />
-        <div className="absolute inset-0 bg-linear-to-t from-[#060a0f] via-[#060a0f]/40 to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-linear-to-t from-[#060a0f] via-[#060a0f]/40 to-transparent pointer-events-none" />
       </div>
-      {/* FIN HERO */}
 
+      {/* TITRE + BADGES */}
       <div className="px-6 py-6">
         <h1 className="text-white text-4xl font-bold font-['Orbitron']">
           {data?.data?.title}
@@ -108,8 +115,10 @@ export default function GameScreen() {
         </div>
       </div>
 
+      {/* CONTENU PRINCIPAL */}
       <div className="flex gap-8 px-6 pb-8">
-        <div className="flex-1">
+        {/* COLONNE GAUCHE */}
+        <div className="flex-1 min-w-0">
           <h2 className="text-[#F1F5F8] text-lg font-semibold mb-3">
             Description
           </h2>
@@ -126,9 +135,69 @@ export default function GameScreen() {
               {!isExpanded ? "Lire la suite" : "Réduire"}
             </button>
           )}
+
+          {/* CARROUSEL */}
+          {screenshots.length > 0 && (
+            <div className="mt-6">
+              <h2 className="text-[#F1F5F8] text-lg font-semibold mb-4">
+                Screenshots
+              </h2>
+              <div className="relative w-full max-w-[80%] aspect-video rounded-2xl overflow-hidden border border-[#1a2d40] mb-3 group">
+                <img
+                  src={screenshots[activeIndex]}
+                  alt={`Screenshot ${activeIndex + 1}`}
+                  className="w-full h-full object-cover transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-sm text-[#94A3B8] text-xs px-3 py-1 rounded-full border border-[#2D4A63]">
+                  {activeIndex + 1} / {screenshots.length}
+                </div>
+                <button
+                  onClick={() =>
+                    setActiveIndex((prev) =>
+                      prev === 0 ? screenshots.length - 1 : prev - 1,
+                    )
+                  }
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-[#2D4A63] hover:border-[#7C3AED]/60 hover:bg-[#5B21B6]/30 text-[#F1F5F8] text-lg flex items-center justify-center transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100"
+                >
+                  ‹
+                </button>
+                <button
+                  onClick={() =>
+                    setActiveIndex((prev) =>
+                      prev === screenshots.length - 1 ? 0 : prev + 1,
+                    )
+                  }
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-[#2D4A63] hover:border-[#7C3AED]/60 hover:bg-[#5B21B6]/30 text-[#F1F5F8] text-lg flex items-center justify-center transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100"
+                >
+                  ›
+                </button>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+                {screenshots.map((screenshot, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveIndex(index)}
+                    className={`shrink-0 w-20 h-14 rounded-lg overflow-hidden border transition-all duration-200 cursor-pointer ${
+                      activeIndex === index
+                        ? "border-[#7C3AED] scale-105 shadow-lg shadow-[#5B21B6]/40"
+                        : "border-[#1a2d40] opacity-50 hover:opacity-80 hover:border-[#2D4A63]"
+                    }`}
+                  >
+                    <img
+                      src={screenshot}
+                      alt={`thumb ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="w-72 flex flex-col gap-4">
+        {/* COLONNE DROITE */}
+        <div className="w-72 flex flex-col gap-4 shrink-0">
           <div>
             <span className="text-[#4a6078] text-xs uppercase tracking-wider">
               Sortie
@@ -179,12 +248,13 @@ export default function GameScreen() {
           {isAdded ? (
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-[#0d9488] shadow-lg shadow-teal-500/50"></div>
+                <div className="w-2 h-2 rounded-full bg-[#0d9488] shadow-lg shadow-teal-500/50" />
                 <span className="text-[#0d9488] text-xs font-semibold uppercase tracking-widest">
                   Dans ta bibliothèque
                 </span>
               </div>
 
+              {/*Statut*/}
               <div className="flex flex-col gap-1.5">
                 <span className="text-[#4a6078] text-xs uppercase tracking-wider">
                   Statut
@@ -201,18 +271,17 @@ export default function GameScreen() {
                       onClick={() =>
                         handleStatusChange(libraryEntry?._id, s.value)
                       }
-                      className={`text-[10px] font-semibold px-2 py-2 rounded-lg border transition-all duration-200 cursor-pointer leading-tight
-              ${
-                libraryEntry?.status === s.value
-                  ? s.value === "en cours"
-                    ? "bg-[#0d9488]/20 border-[#0d9488]/60 text-[#0d9488]"
-                    : s.value === "terminé"
-                      ? "bg-[#5B21B6]/30 border-[#7C3AED]/60 text-[#a78bfa]"
-                      : s.value === "abandonné"
-                        ? "bg-red-900/30 border-red-700/60 text-red-300"
-                        : "bg-[#1C2D3E] border-[#2D4A63] text-[#94A3B8]"
-                  : "bg-transparent border-[#1a2d40] text-[#4a6078] hover:border-[#2D4A63] hover:text-[#94A3B8]"
-              }`}
+                      className={`text-[10px] font-semibold px-2 py-2 rounded-lg border transition-all duration-200 cursor-pointer leading-tight ${
+                        libraryEntry?.status === s.value
+                          ? s.value === "en cours"
+                            ? "bg-[#0d9488]/20 border-[#0d9488]/60 text-[#0d9488]"
+                            : s.value === "terminé"
+                              ? "bg-[#5B21B6]/30 border-[#7C3AED]/60 text-[#a78bfa]"
+                              : s.value === "abandonné"
+                                ? "bg-red-900/30 border-red-700/60 text-red-300"
+                                : "bg-[#1C2D3E] border-[#2D4A63] text-[#94A3B8]"
+                          : "bg-transparent border-[#1a2d40] text-[#4a6078] hover:border-[#2D4A63] hover:text-[#94A3B8]"
+                      }`}
                     >
                       {s.label}
                     </button>
@@ -220,7 +289,58 @@ export default function GameScreen() {
                 </div>
               </div>
 
-              <div className="border-t border-[#1a2d40]"></div>
+              <div className="border-t border-[#1a2d40]" />
+
+              {/*Rating*/}
+              <div className="flex flex-col gap-1.5">
+                <span className="text-[#4a6078] text-xs uppercase tracking-wider">
+                  Mon avis
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    {
+                      label: "🏆 Exceptionnel",
+                      value: "exceptional",
+                      active:
+                        "bg-yellow-900/30 border-yellow-500/60 text-yellow-300",
+                    },
+                    {
+                      label: "👍 Recommandé",
+                      value: "recommended",
+                      active:
+                        "bg-[#0d9488]/20 border-[#0d9488]/60 text-[#0d9488]",
+                    },
+                    {
+                      label: "😐 Bof",
+                      value: "meh",
+                      active: "bg-[#1C2D3E] border-[#2D4A63] text-[#94A3B8]",
+                    },
+                    {
+                      label: "👎 À éviter",
+                      value: "skip",
+                      active: "bg-red-900/30 border-red-700/60 text-red-300",
+                    },
+                  ].map((r) => (
+                    <button
+                      key={r.value}
+                      onClick={() =>
+                        handleRatingChange(
+                          libraryEntry?._id,
+                          libraryEntry?.rating === r.value ? null : r.value,
+                        )
+                      }
+                      className={`text-[10px] font-semibold px-2 py-2 rounded-lg border transition-all duration-200 cursor-pointer leading-tight ${
+                        libraryEntry?.rating === r.value
+                          ? r.active
+                          : "bg-transparent border-[#1a2d40] text-[#4a6078] hover:border-[#2D4A63] hover:text-[#94A3B8]"
+                      }
+                      `}
+                    >
+                      {r.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <button
                 onClick={() => handleDelete(libraryEntry?._id)}

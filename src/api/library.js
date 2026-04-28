@@ -16,10 +16,11 @@ export const deleteLibrary = async (id) => {
 };
 export const updateLibrary = async (
   id,
-  { status, likes, dislikes, journal },
+  { status, rating, likes, dislikes, journal },
 ) => {
   const { data } = await respawnAPI.put(`/library/updateLibrary/${id}`, {
     status,
+    rating,
     likes,
     dislikes,
     journal,
