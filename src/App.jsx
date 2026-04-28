@@ -5,6 +5,7 @@ import Signin from "./pages/SigninScreen";
 import Home from "./pages/HomeScreen";
 import GameScreen from "./pages/GameScreen";
 import LibraryScreen from "./pages/LibraryScreen";
+import Layout from "./components/layout/Layout";
 
 function App() {
   return (
@@ -13,9 +14,12 @@ function App() {
         <Route path="/" element={<Navigate to="/signin" />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/game/:id" element={<GameScreen />} />
-        <Route path="/library" element={<LibraryScreen />} />
+
+        <Route element={<Layout />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/library" element={<LibraryScreen />} />
+          <Route path="/game/:id" element={<GameScreen />} />
+        </Route>
       </Routes>
     </>
   );
