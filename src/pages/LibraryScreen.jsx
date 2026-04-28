@@ -1,9 +1,20 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getLibrary, updateLibrary, deleteLibrary } from "../api/library";
 import LibraryCard from "../components/game/LibraryCard";
+import { useState } from "react";
 
 export default function LibraryScreen() {
   const queryClient = useQueryClient();
+
+  const [activeFilter, setActiveFilter] = useState("tous");
+
+  const filters = [
+    { label: "Tous", value: "tous" },
+    { label: "En cours", value: "en cours" },
+    { label: "Terminés", value: "terminé" },
+    { label: "A jouer", value: "pas encore joué" },
+    { label: "Abandonnés", value: "abandonné" },
+  ];
 
   const updateMutation = useMutation({
     mutationFn: ({ id, status }) => updateLibrary(id, { status }),
@@ -30,6 +41,10 @@ export default function LibraryScreen() {
 
   const gameStatus = (games, status) =>
     games?.filter((game) => game.status === status).length;
+
+  const filteredGames = libraryData?.allData?.filter((f) =>
+    activeFilter === "tous" ? true : f.status === activeFilter,
+  );
 
   return (
     <div className="overflow-y-auto flex-1">
@@ -66,8 +81,29 @@ export default function LibraryScreen() {
         </div>
       </div>
 
+      <div className="flex items-center gap-3 px-6 py-3 ">
+        <span className="text-sm text-[#4a6078] shrink-0"> Filtrer :</span>
+        <div className="flex gap-2">
+          {filters.map((item) => (
+            <button
+              key={item.value}
+              onClick={() => {
+                setActiveFilter(item.value);
+              }}
+              className={
+                activeFilter === item.value
+                  ? "px-4 py-1.5 rounded-full text-xs font-semibold bg-violet-900/30 text-violet-400 border border-violet-500/40 cursor-pointer"
+                  : "px-4 py-1.5 rounded-full text-xs text-[#4a6078] border border-[#2D4A63] hover:border-[#7C3AED] hover:text-[#a78bfa] transition-colors cursor-pointer"
+              }
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="grid grid-cols-4 gap-4 p-6">
-        {libraryData?.allData?.map((e) => (
+        {filteredGames?.map((e) => (
           <LibraryCard
             key={e.game.rawgId}
             _id={e._id}
