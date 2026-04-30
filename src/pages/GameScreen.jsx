@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { selectedGame } from "../api/game";
 import {
@@ -10,15 +10,22 @@ import {
 } from "../api/library";
 import Button from "../components/ui/Button";
 import JournalModal from "../components/game/JournalModal";
+import AuthModal from "../components/auth/AuthModal";
+
+import { useSelector } from "react-redux";
 
 export default function GameScreen() {
   const params = useParams();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const token = useSelector((state) => state.user.value.token);
+
   const [errors, setErrors] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-
   const [openModal, setOpenModal] = useState(false);
+  const [openAuthModal, setOpenAuthModal] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["game", params.id],
@@ -29,6 +36,7 @@ export default function GameScreen() {
   const { data: libraryData } = useQuery({
     queryKey: ["library"],
     queryFn: () => getLibrary(),
+    enabled: !!token,
   });
 
   const screenshots = data?.data?.screenshots ?? [];
@@ -63,6 +71,10 @@ export default function GameScreen() {
   });
 
   const handleAdd = () => {
+    if (!token) {
+      setOpenAuthModal((prev) => !prev);
+      return;
+    }
     setErrors([]);
     addGameMutation.mutate(data?.data?.rawgId);
   };
@@ -81,8 +93,6 @@ export default function GameScreen() {
         <p className="text-[#94A3B8]">Chargement...</p>
       </div>
     );
-
-  //console.log(openJournal);
 
   return (
     <div className="overflow-y-auto flex-1">
@@ -381,6 +391,7 @@ export default function GameScreen() {
           onClose={() => setOpenModal(false)}
         />
       )}
+      {openAuthModal && <AuthModal onClose={() => setOpenAuthModal(false)} />}
     </div>
   );
 }

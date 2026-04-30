@@ -101,7 +101,7 @@ export default function JournalModal({ libraryEntry, onClose }) {
         >
           <div className="absolute top-0 left-0 w-0.75 h-full bg-linear-to-b from-[#0d9488] to-[#14b8a6]" />
           <p className="text-[#14b8a6] font-['Orbitron'] text-2xl font-bold">
-            {formatDuration(sumPlayTime)}
+            {sumPlayTime === 0 ? "0h" : formatDuration(sumPlayTime)}
           </p>
           <span className="text-[#4a6078] text-[10px] uppercase tracking-widest font-bold">
             temps total
