@@ -17,7 +17,6 @@ export default function GameScreen() {
   const [errors, setErrors] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  //const [openJournal, setOpenJournal] = useState(false);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -41,7 +40,6 @@ export default function GameScreen() {
   const libraryEntry = libraryData?.allData?.find(
     (g) => g.game?.rawgId === data?.data?.rawgId,
   );
-  //console.log("data jeu gameScreen => ", libraryEntry);
 
   const addGameMutation = useMutation({
     mutationFn: createLibrary,
@@ -347,69 +345,17 @@ export default function GameScreen() {
                   ))}
                 </div>
               </div>
-              {/* <button
-                onClick={() => {
-                  setOpenJournal((prev) => !prev);
-                }}
-                className={`text-sm text-[#4a6078] font-semibold px-2 py-2  transition-all duration-200 cursor-pointer leading-tight
-                      `}
-              >
-                ➕ Nouvelle session
-              </button>
-              {openJournal &&
-                (setOpenModal((prev) => !prev),
-                (
-                  <div>
-                    <input
-                      name="note"
-                      onChange={(e) =>
-                        setJournalInput((prev) => ({
-                          ...prev,
-                          note: e.target.value,
-                        }))
-                      }
-                    />
-                    <input
-                      name="hours"
-                      onChange={(e) =>
-                        setJournalInput((prev) => ({
-                          ...prev,
-                          heure: Number(e.target.value),
-                        }))
-                      }
-                    />
-                    <input
-                      name="minutes"
-                      onChange={(e) =>
-                        setJournalInput((prev) => ({
-                          ...prev,
-                          minutes: Number(e.target.value),
-                        }))
-                      }
-                    />
-                    <button
-                      onClick={() => handleAddSession(libraryEntry?._id)}
-                      className="w-full text-xs font-semibold py-2.5 rounded-lg border border-red-900/50 text-red-400/70 hover:bg-red-900/20 hover:border-red-700/60 hover:text-red-300 transition-all duration-200 cursor-pointer"
-                    >
-                      CONFIRMER
-                    </button>
-                  </div>
-                ))} */}
 
               <button
-                onClick={() => {
-                  setOpenModal((prev) => !prev);
-                }}
+                onClick={() => setOpenModal((prev) => !prev)}
+                className="w-full flex items-center justify-center gap-2 text-xs font-bold py-2.5 rounded-lg border border-[#2D4A63] text-[#94A3B8] hover:border-[#5B21B6] hover:text-[#a78bfa] transition-all duration-200 cursor-pointer uppercase tracking-widest"
               >
-                📓 Journal
+                <span className="w-4 h-4 rounded-full bg-[#5B21B6]/20 border border-[#7C3AED]/40 text-[#a78bfa] flex items-center justify-center text-xs">
+                  📓
+                </span>
+                Journal de sessions
               </button>
 
-              {openModal && (
-                <JournalModal
-                  libraryEntry={libraryEntry}
-                  onClose={() => setOpenModal(false)}
-                />
-              )}
               <button
                 onClick={() => handleDelete(libraryEntry?._id)}
                 className="w-full text-xs font-semibold py-2.5 rounded-lg border border-red-900/50 text-red-400/70 hover:bg-red-900/20 hover:border-red-700/60 hover:text-red-300 transition-all duration-200 cursor-pointer"
@@ -428,6 +374,13 @@ export default function GameScreen() {
           )}
         </div>
       </div>
+
+      {openModal && (
+        <JournalModal
+          libraryEntry={libraryEntry}
+          onClose={() => setOpenModal(false)}
+        />
+      )}
     </div>
   );
 }
