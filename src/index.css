@@ -132,3 +132,18 @@ body {
     @apply font-sans;
   }
 }
+
+[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #2d4a63;
+  border-radius: 4px;
+}
