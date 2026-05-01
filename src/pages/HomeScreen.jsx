@@ -5,9 +5,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import GameCard from "../components/game/GameCard";
+import { MdLibraryAddCheck } from "react-icons/md";
 
-import { createLibrary } from "../api/library";
+import { createLibrary, getLibrary } from "../api/library";
 import AuthModal from "../components/auth/AuthModal";
+
+import { toast } from "sonner";
 
 export default function Home() {
   const location = useLocation();
@@ -31,17 +34,32 @@ export default function Home() {
     queryFn: () => discoverGames({ type: activeTab }),
   });
 
-  const addGameMutation = useMutation({
-    mutationFn: createLibrary,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["library"] }),
+  const { data: libraryData } = useQuery({
+    queryKey: ["library"],
+    queryFn: () => getLibrary(),
+    enabled: !!token,
   });
 
-  const handleAdd = () => {
+  const addGameMutation = useMutation({
+    mutationFn: createLibrary,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["library"] });
+      toast("Jeu ajouté à ta bibliothèque !", {
+        style: {
+          background: "#1C2D3E",
+          border: "1px solid #0d9488",
+          color: "#F1F5F8",
+        },
+      });
+    },
+  });
+
+  const handleAdd = (rawgId) => {
     if (!token) {
       setOpenAuthModal((prev) => !prev);
       return;
     }
-    addGameMutation.mutate(topGame.rawgId);
+    addGameMutation.mutate(rawgId);
   };
 
   const searchResults = location.state?.searchResults ?? [];
@@ -64,7 +82,9 @@ export default function Home() {
 
   const topGame = data?.[0];
 
-  console.log(data);
+  const isTopGameAdded =
+    libraryData?.allData.some((g) => g.game?.rawgId === topGame.rawgId) ??
+    false;
 
   return (
     <div className="overflow-y-auto flex-1">
@@ -109,16 +129,29 @@ export default function Home() {
             </div>
 
             <div className="flex gap-3 mt-5">
-              <button
-                onClick={() => handleAdd()}
-                className="w-48 text-xs font-bold py-3 rounded-xl text-white uppercase tracking-widest transition-all duration-200 cursor-pointer hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
-                style={{
-                  background: "linear-gradient(135deg, #5B21B6, #7C3AED)",
-                  boxShadow: "0 4px 14px rgba(91,33,182,0.35)",
-                }}
-              >
-                + Ajouter à ma Lib
-              </button>
+              {isTopGameAdded ? (
+                <button
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-bold uppercase tracking-widest cursor-default opacity-90"
+                  style={{
+                    background: "linear-gradient(135deg, #0d9488, #0f766e)",
+                    boxShadow: "0 4px 14px rgba(13,148,136,0.35)",
+                  }}
+                >
+                  <MdLibraryAddCheck size={14} />
+                  Dans ma lib
+                </button>
+              ) : (
+                <button
+                  onClick={() => handleAdd(topGame.rawgId)}
+                  className="w-48 text-xs font-bold py-3 rounded-xl text-white uppercase tracking-widest transition-all duration-200 cursor-pointer hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
+                  style={{
+                    background: "linear-gradient(135deg, #5B21B6, #7C3AED)",
+                    boxShadow: "0 4px 14px rgba(91,33,182,0.35)",
+                  }}
+                >
+                  + Ajouter à ma Lib
+                </button>
+              )}
               <button
                 onClick={() => navigate(`/game/${topGame.rawgId}`)}
                 className="w-48 text-xs font-bold py-3 rounded-xl border border-[#7C3AED] text-[#a78bfa] uppercase tracking-widest transition-all duration-200 cursor-pointer hover:bg-[#5B21B6]/20 hover:border-[#a78bfa] hover:scale-[1.02] active:scale-[0.98]"
@@ -175,6 +208,11 @@ export default function Home() {
             title={e.title}
             genre={e.genres[0]?.name}
             platforms={e.platforms}
+            addGame={() => handleAdd(e.rawgId)}
+            isAdded={
+              libraryData?.allData.some((g) => g.game?.rawgId === e.rawgId) ??
+              false
+            }
           />
         ))}
       </div>

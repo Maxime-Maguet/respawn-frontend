@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom";
+
 import { FaXbox } from "react-icons/fa";
 import { FaPlaystation } from "react-icons/fa";
 import { FaWindows } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";
+import { MdLibraryAdd } from "react-icons/md";
+import { MdLibraryAddCheck } from "react-icons/md";
+
 export default function GameCard({
   rawgId,
   title,
   backgroundImage,
   genre,
   platforms,
+  addGame,
+  isAdded,
 }) {
   const navigate = useNavigate();
 
@@ -41,9 +47,24 @@ export default function GameCard({
             ))}
         </div>
         <h1 className="text-[#F1F5F8] text-sm font-semibold">{title}</h1>
-        <span className="text-xs text-[#94A3B8] bg-[#1C2D3E] px-2 py-0.5 rounded-full">
-          {genre}
-        </span>
+        <div className="flex items-center justify-between mt-2">
+          <span className="text-xs text-[#94A3B8] bg-[#1C2D3E] px-2 py-0.5 rounded-full">
+            {genre}
+          </span>
+          {!isAdded ? (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                addGame();
+              }}
+              className="w-6 h-6 rounded-full border border-[#2D4A63] text-[#94A3B8] hover:border-[#7C3AED] hover:text-[#a78bfa] transition-all duration-200 flex items-center justify-center text-sm cursor-pointer"
+            >
+              <MdLibraryAdd size={16} />
+            </button>
+          ) : (
+            <MdLibraryAddCheck size={16} className="text-[#0d9488]" />
+          )}
+        </div>
       </div>
     </div>
   );

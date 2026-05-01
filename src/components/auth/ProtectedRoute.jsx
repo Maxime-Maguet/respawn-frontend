@@ -20,9 +20,9 @@ export default function ProtectedRoute() {
   };
 
   return (
-    <div>
+    <>
       {token ? <Outlet /> : null}
       {openAuthModal && <AuthModal onClose={closingModal} />}
-    </div>
+    </>
   );
 }

@@ -14,10 +14,11 @@ import AuthModal from "../components/auth/AuthModal";
 
 import { useSelector } from "react-redux";
 
+import { toast } from "sonner";
+
 export default function GameScreen() {
   const params = useParams();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const token = useSelector((state) => state.user.value.token);
 
@@ -51,7 +52,16 @@ export default function GameScreen() {
 
   const addGameMutation = useMutation({
     mutationFn: createLibrary,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["library"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["library"] });
+      toast("Jeu ajouté à ta bibliothèque !", {
+        style: {
+          background: "#1C2D3E",
+          border: "1px solid #0d9488",
+          color: "#F1F5F8",
+        },
+      });
+    },
     onError: (error) => {
       setErrors(error.response?.data?.errors?.map((err) => err.msg) ?? []);
     },
@@ -66,7 +76,16 @@ export default function GameScreen() {
 
   const deleteMutation = useMutation({
     mutationFn: deleteLibrary,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["library"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["library"] });
+      toast("Jeu retiré de ta bibliothèque !", {
+        style: {
+          background: "#1C2D3E",
+          border: "1px solid #7C3AED",
+          color: "#F1F5F8",
+        },
+      });
+    },
     onError: (err) => console.error(err),
   });
 

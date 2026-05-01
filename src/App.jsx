@@ -7,6 +7,7 @@ import GameScreen from "./pages/GameScreen";
 import LibraryScreen from "./pages/LibraryScreen";
 import Layout from "./components/layout/Layout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -24,6 +25,11 @@ function App() {
           <Route path="/game/:id" element={<GameScreen />} />
         </Route>
       </Routes>
+      <Toaster
+        theme="dark"
+        position="bottom-right"
+        toastOptions={{ style: { width: "fit-content" } }}
+      />
     </>
   );
 }

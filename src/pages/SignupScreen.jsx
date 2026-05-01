@@ -26,7 +26,6 @@ export default function Signup() {
   const mutation = useMutation({
     mutationFn: signup,
     onSuccess: (data) => {
-      console.log("signupScreen", data);
       dispatch(login(data));
       navigate("/Home");
     },
