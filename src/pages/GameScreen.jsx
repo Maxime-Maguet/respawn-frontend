@@ -118,9 +118,16 @@ export default function GameScreen() {
           {data?.data?.title}
         </h1>
         <div className="flex gap-3 mt-3">
-          <span className="bg-[#1C2D3E] border border-[#2D4A63] text-[#F1F5F8] text-sm px-3 py-1 rounded-full">
-            ⭐ {data?.data?.rating}
-          </span>
+          {data?.data?.rating === 0 ? (
+            <span className="bg-[#1C2D3E] border border-[#2D4A63] text-[#4a6078] text-sm px-3 py-1 rounded-full">
+              Pas encore noté
+            </span>
+          ) : (
+            <span className="bg-[#1C2D3E] border border-[#2D4A63] text-[#F1F5F8] text-sm px-3 py-1 rounded-full">
+              ⭐ {data?.data?.rating}
+            </span>
+          )}
+
           {data?.data?.metacritic && (
             <span className="bg-[#0d9488]/20 border border-[#0d9488]/40 text-[#0d9488] text-sm px-3 py-1 rounded-full">
               Metacritic {data?.data?.metacritic}
