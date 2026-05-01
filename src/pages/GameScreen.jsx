@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { selectedGame } from "../api/game";
 import {
@@ -8,9 +8,11 @@ import {
   updateLibrary,
   deleteLibrary,
 } from "../api/library";
+
 import Button from "../components/ui/Button";
 import JournalModal from "../components/game/JournalModal";
 import AuthModal from "../components/auth/AuthModal";
+import ConfirmModal from "../components/game/ConfirmModal";
 
 import { useSelector } from "react-redux";
 
@@ -27,6 +29,7 @@ export default function GameScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [openAuthModal, setOpenAuthModal] = useState(false);
+  const [openConfirmModal, setOpenCOnfirmModal] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["game", params.id],
@@ -393,7 +396,7 @@ export default function GameScreen() {
               </button>
 
               <button
-                onClick={() => handleDelete(libraryEntry?._id)}
+                onClick={() => setOpenCOnfirmModal(true)}
                 className="w-full text-xs font-semibold py-2.5 rounded-lg border border-red-900/50 text-red-400/70 hover:bg-red-900/20 hover:border-red-700/60 hover:text-red-300 transition-all duration-200 cursor-pointer"
               >
                 Retirer de la bibliothèque
@@ -418,6 +421,15 @@ export default function GameScreen() {
         />
       )}
       {openAuthModal && <AuthModal onClose={() => setOpenAuthModal(false)} />}
+      {openConfirmModal && (
+        <ConfirmModal
+          onClose={() => setOpenCOnfirmModal(false)}
+          onConfirm={() => {
+            handleDelete(libraryEntry?._id);
+            setOpenCOnfirmModal(false);
+          }}
+        />
+      )}
     </div>
   );
 }
