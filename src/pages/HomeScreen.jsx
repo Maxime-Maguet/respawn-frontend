@@ -64,6 +64,8 @@ export default function Home() {
 
   const topGame = data?.[0];
 
+  console.log(data);
+
   return (
     <div className="overflow-y-auto flex-1">
       {activeTab === "trending" && searchResults.length === 0 && (
@@ -172,6 +174,7 @@ export default function Home() {
             backgroundImage={e.backgroundImage}
             title={e.title}
             genre={e.genres[0]?.name}
+            platforms={e.platforms}
           />
         ))}
       </div>
