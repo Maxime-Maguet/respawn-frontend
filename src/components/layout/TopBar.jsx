@@ -1,16 +1,21 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Bell, Search } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { searchGames } from "../../api/game";
 import Input from "../ui/Input";
-
+import { toast } from "sonner";
+import { logout } from "../../redux/slices/userSlice";
 export default function TopBar() {
-  const user = useSelector((state) => state.user.value.username);
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user.value);
+
   const [search, setSearch] = useState("");
+  const [openDropDown, setOpenDropDown] = useState(false);
 
   const isLibrary = location.pathname === "/library";
 
@@ -33,18 +38,35 @@ export default function TopBar() {
     e.key === "Enter" && handleSearch();
   };
 
+  const handleLogOut = () => {
+    dispatch(logout());
+    toast("Vous êtes deconnecté", {
+      style: {
+        background: "#1C2D3E",
+        border: "1px solid #0d9488",
+        color: "#F1F5F8",
+      },
+    });
+    navigate("/home");
+  };
+
   const date = new Date().getHours();
 
   return (
     <div className="h-16 flex items-center px-6 bg-[#0d1520] border-b border-[#2D4A63]/80">
       {!isLibrary ? (
         <div className="w-48 shrink-0 flex items-center gap-1 whitespace-nowrap">
-          <span className="text-sm text-[#4a6078]">
-            {date < 12 ? "Bonjour," : "Bonsoir,"}
-          </span>
-          <span className="text-sm font-semibold text-[#F1F5F8]">
-            {user.charAt(0).toUpperCase() + user.slice(1)}
-          </span>
+          {user.token && (
+            <div>
+              <span className="text-sm text-[#4a6078]">
+                {date < 12 ? "Bonjour," : "Bonsoir,"}
+              </span>
+              {"  "}
+              <span className="text-sm font-semibold text-[#F1F5F8]">
+                {user.username.charAt(0).toUpperCase() + user.username.slice(1)}
+              </span>
+            </div>
+          )}
         </div>
       ) : (
         <div className="w-48 shrink-0 text-sm text-[#C084FC] font-semibold tracking-widest font-[Orbitron] whitespace-nowrap uppercase flex items-center">
@@ -67,13 +89,49 @@ export default function TopBar() {
           onClick={handleSearch}
         />
       </div>
-
-      <div className="w-48 shrink-0 flex items-center justify-end gap-3">
-        <Bell size={18} className="text-[#94A3B8]" />
-        <div className="rounded-full w-8 h-8 bg-[#7C3AED] flex items-center justify-center text-sm font-bold text-white">
-          {user.charAt(0).toUpperCase()}
+      {user.token ? (
+        <div className="w-48 shrink-0 flex items-center justify-end gap-3">
+          <Bell size={18} className="text-[#94A3B8]" />
+          <div className="relative">
+            <div
+              onClick={() => setOpenDropDown((prev) => !prev)}
+              className="rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold text-white cursor-pointer hover:scale-110 transition-all duration-200 ring-2 ring-[#7C3AED]/40 hover:ring-[#a78bfa]/60"
+              style={{
+                background: "linear-gradient(135deg, #5B21B6, #0d9488)",
+              }}
+            >
+              {user.username.charAt(0).toUpperCase()}
+            </div>
+            {openDropDown && (
+              <div className="absolute right-0 top-11 w-48 rounded-xl border border-[#2D4A63] bg-[#0d1520] shadow-xl shadow-black/50 flex flex-col overflow-hidden z-50">
+                <div className="px-4 py-3 border-b border-[#1a2d40]">
+                  <p className="text-xs text-[#4a6078] uppercase tracking-widest">
+                    Connecté en tant que
+                  </p>
+                  <p className="text-sm font-semibold text-[#F1F5F8] mt-0.5">
+                    {user.username.toUpperCase()}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleLogOut()}
+                  className="px-4 py-3 text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300 transition-all duration-200 cursor-pointer text-left"
+                >
+                  Déconnexion
+                </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="w-48 shrink-0 flex items-center justify-end">
+          <button
+            onClick={() => navigate("/signin")}
+            className="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-xl border border-[#7C3AED] text-[#a78bfa] hover:bg-[#5B21B6]/20 hover:border-[#a78bfa] transition-all duration-200 cursor-pointer"
+          >
+            Se connecter
+          </button>
+        </div>
+      )}
     </div>
   );
 }
