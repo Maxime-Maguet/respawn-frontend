@@ -279,21 +279,24 @@ export default function GameScreen() {
               ))}
             </div>
           </div>
-
           <div>
             <span className="text-[#4a6078] text-xs uppercase tracking-wider">
               Tags
             </span>
-            <div className="flex flex-wrap gap-2 mt-1">
-              {tags.map((t) => (
-                <span
-                  key={t}
-                  className="text-[#0d9488] bg-[#0d9488]/10 border border-[#0d9488]/20 text-xs px-2 py-0.5 rounded-full"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+            {tags.length === 0 ? (
+              <p className="text-[#4a6078] text-sm mt-1">Pas encore de tags</p>
+            ) : (
+              <div className="flex flex-wrap gap-2 mt-1">
+                {tags.map((t) => (
+                  <span
+                    key={t}
+                    className="text-[#0d9488] bg-[#0d9488]/10 border border-[#0d9488]/20 text-xs px-2 py-0.5 rounded-full"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
@@ -312,13 +315,20 @@ export default function GameScreen() {
             </div>
           </div>
           <div>
-            <span className="text-[#4a6078] text-xs uppercase tracking-wider">
+            <span className="text-[#4a6078] text-xs uppercase tracking-wider ">
               Développeurs
             </span>
-            <p className="text-[#F1F5F8] text-sm mt-1">
-              {data?.data?.developers.join(", ")}
+            <p className="text-[#F1F5F8] text-sm mt-1 mb-3">
+              {data?.data?.developers.join(", ")}{" "}
+            </p>
+            <span className="text-[#4a6078] text-xs uppercase tracking-wider">
+              Editeurs
+            </span>
+            <p className="text-[#F1F5F8] text-sm mt-1 ">
+              {data?.data?.publisher.join(", ")}
             </p>
           </div>
+
           {stores && stores.length > 0 && (
             <div>
               <span className="text-[#4a6078] text-xs uppercase tracking-wider">
