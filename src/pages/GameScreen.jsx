@@ -18,6 +18,11 @@ import { useSelector } from "react-redux";
 
 import { toast } from "sonner";
 
+import { FaSteam } from "react-icons/fa";
+import { SiEpicgames } from "react-icons/si";
+import { FaPlaystation, FaXbox } from "react-icons/fa";
+import { BsNintendoSwitch } from "react-icons/bs";
+
 export default function GameScreen() {
   const params = useParams();
   const queryClient = useQueryClient();
@@ -30,6 +35,14 @@ export default function GameScreen() {
   const [openModal, setOpenModal] = useState(false);
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [openConfirmModal, setOpenCOnfirmModal] = useState(false);
+
+  const storeMap = [
+    { key: "steampowered", label: "Steam", icon: <FaSteam /> },
+    { key: "epicgames", label: "Epic Games", icon: <SiEpicgames /> },
+    { key: "playstation", label: "Playstation", icon: <FaPlaystation /> },
+    { key: "microsoft", label: "Xbox", icon: <FaXbox /> },
+    { key: "nintendo", label: "Nintendo", icon: <BsNintendoSwitch /> },
+  ];
 
   const { data, isLoading } = useQuery({
     queryKey: ["game", params.id],
@@ -44,6 +57,9 @@ export default function GameScreen() {
   });
 
   const screenshots = data?.data?.screenshots ?? [];
+  const stores = data?.data?.stores;
+
+  console.log(data?.data?.stores);
 
   const isAdded =
     libraryData?.allData.some((g) => g.game?.rawgId === data?.data?.rawgId) ??
@@ -287,6 +303,39 @@ export default function GameScreen() {
               {data?.data?.developers.join(", ")}
             </p>
           </div>
+          {stores && stores.length > 0 && (
+            <div>
+              <span className="text-[#4a6078] text-xs uppercase tracking-wider">
+                Où acheter
+              </span>
+              <div className="flex flex-col gap-2 mt-2">
+                {stores?.map((url, index) => {
+                  const store = storeMap.find((store) =>
+                    url.includes(store.key),
+                  );
+                  return store ? (
+                    <a
+                      key={index}
+                      href={url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-[#1a2d40] bg-[#0d1520] hover:border-[#7C3AED]/60 hover:bg-[#5B21B6]/10 transition-all duration-200 group cursor-pointer"
+                    >
+                      <span className="text-[#94A3B8] group-hover:text-[#a78bfa] transition-colors duration-200 text-base">
+                        {store.icon}
+                      </span>
+                      <span className="text-[#94A3B8] group-hover:text-[#a78bfa] transition-colors duration-200 text-base">
+                        {store.label}
+                      </span>
+                      <span className="ml-auto text-[#4a6078] group-hover:text-[#a78bfa] text-xs transition-colors duration-200">
+                        →
+                      </span>
+                    </a>
+                  ) : null;
+                })}
+              </div>
+            </div>
+          )}
 
           {isAdded ? (
             <div className="flex flex-col gap-3">
