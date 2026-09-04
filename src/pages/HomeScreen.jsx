@@ -93,7 +93,7 @@ export default function Home() {
     <div className="overflow-y-auto flex-1">
       {activeTab === "trending" && searchResults.length === 0 && (
         <div
-          className="relative mx-auto mt-6 h-80 rounded-2xl overflow-hidden group max-w-5xl"
+          className="relative mx-4 mt-4 h-56 overflow-hidden rounded-2xl group sm:mx-auto sm:mt-6 sm:h-80 sm:max-w-5xl"
           style={{
             border: "1px solid #2D4A63",
             boxShadow:
@@ -107,14 +107,14 @@ export default function Home() {
           <div className="absolute inset-0 bg-linear-to-t from-[#060a0f] via-[#060a0f]/50 to-transparent" />
           <div className="absolute inset-0 bg-linear-to-r from-[#060a0f]/70 via-[#060a0f]/20 to-transparent" />
 
-          <div className="relative h-full flex flex-col justify-center p-8 max-w-2xl">
+          <div className="relative flex h-full max-w-2xl flex-col justify-end p-4 sm:justify-center sm:p-8">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-2 h-2 rounded-full bg-[#7C3AED] animate-pulse shadow-lg shadow-violet-500/50" />
               <span className="text-[#a78bfa] text-xs font-bold uppercase tracking-widest font-['Orbitron']">
                 Tendance · #1 cette semaine
               </span>
             </div>
-            <h1 className="text-white text-6xl  leading-tight mb-3 font-bold font-['Orbitron']">
+            <h1 className="mb-3 text-2xl font-bold leading-tight text-white font-['Orbitron'] sm:text-4xl lg:text-6xl">
               {topGame.title}
             </h1>
 
@@ -131,10 +131,10 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="flex gap-3 mt-5">
+            <div className="mt-4 flex flex-col gap-2 sm:mt-5 sm:flex-row sm:gap-3">
               {isTopGameAdded ? (
                 <button
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-xs font-bold uppercase tracking-widest cursor-default opacity-90"
+                  className="flex w-full cursor-default items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-white opacity-90 sm:w-auto"
                   style={{
                     background: "linear-gradient(135deg, #0d9488, #0f766e)",
                     boxShadow: "0 4px 14px rgba(13,148,136,0.35)",
@@ -146,7 +146,7 @@ export default function Home() {
               ) : (
                 <button
                   onClick={() => handleAdd(topGame.rawgId)}
-                  className="w-48 text-xs font-bold py-3 rounded-xl text-white uppercase tracking-widest transition-all duration-200 cursor-pointer hover:brightness-110 hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full cursor-pointer rounded-xl py-3 text-xs font-bold uppercase tracking-widest text-white transition-all duration-200 hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] sm:w-48"
                   style={{
                     background: "linear-gradient(135deg, #5B21B6, #7C3AED)",
                     boxShadow: "0 4px 14px rgba(91,33,182,0.35)",
@@ -157,7 +157,7 @@ export default function Home() {
               )}
               <button
                 onClick={() => navigate(`/game/${topGame.rawgId}`)}
-                className="w-48 text-xs font-bold py-3 rounded-xl border border-[#7C3AED] text-[#a78bfa] uppercase tracking-widest transition-all duration-200 cursor-pointer hover:bg-[#5B21B6]/20 hover:border-[#a78bfa] hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full cursor-pointer rounded-xl border border-[#7C3AED] py-3 text-xs font-bold uppercase tracking-widest text-[#a78bfa] transition-all duration-200 hover:border-[#a78bfa] hover:bg-[#5B21B6]/20 hover:scale-[1.02] active:scale-[0.98] sm:w-48"
               >
                 Voir la fiche →
               </button>
@@ -167,7 +167,7 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-transparent via-[#0d9488] to-transparent opacity-60" />
         </div>
       )}
-      <div className="h-13 mx-auto w-fit bg-[#0d1520] border border-[#1a2d40] rounded-lg flex mt-6 px-2">
+      <div className="mx-4 mt-4 flex h-13 w-auto max-w-full justify-center overflow-x-auto rounded-lg border border-[#1a2d40] bg-[#0d1520] px-2 sm:mx-auto sm:mt-6 sm:w-fit">
         <div className="flex items-center justify-center">
           {navItems.map((item) => (
             <button
@@ -178,8 +178,8 @@ export default function Home() {
               }}
               className={
                 activeTab !== item.value || searchResults.length > 0
-                  ? "block p-3 rounded-lg text-[#4a6078] hover:bg-[#1C2D3E] active:scale-95 cursor-pointer"
-                  : "block p-3 rounded-lg bg-violet-900/20 text-violet-400 border border-violet-500/20 active:scale-95 cursor-pointer"
+                  ? "block cursor-pointer rounded-lg p-2 text-xs text-[#4a6078] hover:bg-[#1C2D3E] active:scale-95 sm:p-3 sm:text-sm"
+                  : "block cursor-pointer rounded-lg border border-violet-500/20 bg-violet-900/20 p-2 text-xs text-violet-400 active:scale-95 sm:p-3 sm:text-sm"
               }
             >
               {item.label}
@@ -189,7 +189,7 @@ export default function Home() {
       </div>
 
       {searchResults.length > 0 && (
-        <div className="flex items-center gap-3 px-6 mt-4">
+        <div className="mt-4 flex items-center gap-3 px-4 sm:px-6">
           <button
             onClick={() => navigate("/home", { state: null })}
             className="flex items-center gap-2 text-sm text-[#94A3B8] hover:text-[#F1F5F8] transition-colors cursor-pointer"
@@ -202,7 +202,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="grid grid-cols-4 gap-4 p-6">
+      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-3 xl:grid-cols-4">
         {gameToDisplay.map((e) => (
           <GameCard
             key={e.rawgId}

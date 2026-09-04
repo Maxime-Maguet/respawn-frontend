@@ -53,9 +53,9 @@ export default function TopBar() {
   const date = new Date().getHours();
 
   return (
-    <div className="h-16 flex items-center px-6 bg-[#0d1520] border-b border-[#2D4A63]/80">
+    <div className="flex h-16 items-center gap-2 bg-[#0d1520] px-3 sm:gap-3 sm:px-6 border-b border-[#2D4A63]/80">
       {!isLibrary ? (
-        <div className="w-48 shrink-0 flex items-center gap-1 whitespace-nowrap">
+        <div className="hidden w-48 shrink-0 items-center gap-1 whitespace-nowrap lg:flex">
           {user.token && (
             <div>
               <span className="text-sm text-[#4a6078]">
@@ -69,12 +69,12 @@ export default function TopBar() {
           )}
         </div>
       ) : (
-        <div className="w-48 shrink-0 text-sm text-[#C084FC] font-semibold tracking-widest font-[Orbitron] whitespace-nowrap uppercase flex items-center">
+        <div className="hidden w-48 shrink-0 items-center text-sm text-[#C084FC] font-semibold tracking-widest font-[Orbitron] whitespace-nowrap uppercase md:flex">
           Ma Bibliothèque
         </div>
       )}
 
-      <div className="flex-1 flex justify-center items-center gap-3">
+      <div className="flex min-w-0 flex-1 items-center justify-center gap-2 sm:gap-3">
         <Input
           type="text"
           value={search}
@@ -85,13 +85,13 @@ export default function TopBar() {
         />
         <Search
           size={18}
-          className="text-[#94A3B8] active:scale-95 cursor-pointer"
+          className="shrink-0 cursor-pointer text-[#94A3B8] active:scale-95"
           onClick={handleSearch}
         />
       </div>
       {user.token ? (
-        <div className="w-48 shrink-0 flex items-center justify-end gap-3">
-          <Bell size={18} className="text-[#94A3B8]" />
+        <div className="flex shrink-0 items-center justify-end gap-2 sm:w-48 sm:gap-3">
+          <Bell size={18} className="hidden text-[#94A3B8] sm:block" />
           <div className="relative">
             <div
               onClick={() => setOpenDropDown((prev) => !prev)}
@@ -123,12 +123,12 @@ export default function TopBar() {
           </div>
         </div>
       ) : (
-        <div className="w-48 shrink-0 flex items-center justify-end">
+        <div className="flex shrink-0 items-center justify-end sm:w-48">
           <button
             onClick={() => navigate("/signin")}
-            className="text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-xl border border-[#7C3AED] text-[#a78bfa] hover:bg-[#5B21B6]/20 hover:border-[#a78bfa] transition-all duration-200 cursor-pointer"
+            className="cursor-pointer rounded-xl border border-[#7C3AED] px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-[#a78bfa] transition-all duration-200 hover:border-[#a78bfa] hover:bg-[#5B21B6]/20 sm:px-4 sm:text-xs"
           >
-            Se connecter
+            Connexion
           </button>
         </div>
       )}

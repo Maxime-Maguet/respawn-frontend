@@ -27,7 +27,7 @@ function App() {
       </Routes>
       <Toaster
         theme="dark"
-        position="bottom-right"
+        position="top-center"
         toastOptions={{ style: { width: "fit-content" } }}
       />
     </>

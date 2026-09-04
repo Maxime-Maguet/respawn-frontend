@@ -50,7 +50,7 @@ export default function LibraryCard({
           {title}
         </h3>
 
-        <div className="overflow-hidden max-h-0 group-hover:max-h-10 transition-all duration-500">
+        <div className="overflow-hidden max-h-10 transition-all duration-500 md:max-h-0 md:group-hover:max-h-10">
           <span className="inline-block mt-2 text-[10px] text-[#a78bfa] bg-[#5B21B6]/30 backdrop-blur-sm px-2 py-0.5 rounded-full border border-[#7C3AED]/40">
             {Array.isArray(genre) ? genre.slice(0, 2).join(" • ") : genre}
           </span>

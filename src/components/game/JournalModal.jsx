@@ -65,7 +65,7 @@ export default function JournalModal({ libraryEntry, onClose }) {
       }}
     >
       <div
-        className="rounded-2xl p-5 w-96 max-h-[85vh] overflow-y-auto custom-scroll flex flex-col gap-4"
+        className="custom-scroll flex max-h-[85vh] w-[calc(100%-2rem)] max-w-96 flex-col gap-4 overflow-y-auto rounded-2xl p-5"
         style={{
           background: "linear-gradient(180deg, #0f1923 0%, #0a1018 100%)",
           border: "1px solid #2D4A63",

@@ -48,7 +48,7 @@ export default function LibraryScreen() {
 
   return (
     <div className="overflow-y-auto flex-1">
-      <div className="grid grid-cols-4 gap-3 p-6">
+      <div className="grid grid-cols-2 gap-3 p-4 sm:p-6 lg:grid-cols-4">
         <div className="bg-[#1C2D3E] border border-[#2D4A63] rounded-lg p-4">
           <p className="text-[#4a6078] text-xs uppercase tracking-wider mb-1">
             Total
@@ -81,8 +81,8 @@ export default function LibraryScreen() {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 px-6 py-3 ">
-        <span className="text-sm text-[#4a6078] shrink-0"> Filtrer :</span>
+      <div className="flex items-center gap-3 overflow-x-auto px-4 py-3 sm:px-6">
+        <span className="shrink-0 text-sm text-[#4a6078]">Filtrer :</span>
         <div className="flex gap-2">
           {filters.map((item) => (
             <button
@@ -92,8 +92,8 @@ export default function LibraryScreen() {
               }}
               className={
                 activeFilter === item.value
-                  ? "px-4 py-1.5 rounded-full text-xs font-semibold bg-violet-900/30 text-violet-400 border border-violet-500/40 cursor-pointer"
-                  : "px-4 py-1.5 rounded-full text-xs text-[#4a6078] border border-[#2D4A63] hover:border-[#7C3AED] hover:text-[#a78bfa] transition-colors cursor-pointer"
+                  ? "shrink-0 cursor-pointer rounded-full border border-violet-500/40 bg-violet-900/30 px-4 py-1.5 text-xs font-semibold text-violet-400"
+                  : "shrink-0 cursor-pointer rounded-full border border-[#2D4A63] px-4 py-1.5 text-xs text-[#4a6078] transition-colors hover:border-[#7C3AED] hover:text-[#a78bfa]"
               }
             >
               {item.label}
@@ -102,7 +102,7 @@ export default function LibraryScreen() {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 p-6">
+      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-3 xl:grid-cols-4">
         {filteredGames?.map((e) => (
           <LibraryCard
             key={e.game.rawgId}

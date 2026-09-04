@@ -41,7 +41,7 @@ export default function SideBar() {
   // ];
 
   return (
-    <div className="relative flex shrink-0">
+    <div className="relative hidden shrink-0 md:flex">
       <div
         className={`${expanded ? "w-56" : "w-20"} min-h-screen bg-[#0d1520] border-r border-[#2D4A63]/80 flex flex-col py-4 transition-all duration-300 overflow-hidden`}
       >

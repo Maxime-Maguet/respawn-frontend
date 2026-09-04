@@ -134,7 +134,7 @@ export default function GameScreen() {
   return (
     <div className="overflow-y-auto flex-1">
       {/* HERO */}
-      <div className="relative w-full h-96 overflow-hidden">
+      <div className="relative h-48 w-full overflow-hidden sm:h-96">
         <div
           className="absolute inset-0 bg-cover bg-center scale-110 blur-2xl opacity-60"
           style={{ backgroundImage: `url(${data?.data?.backgroundImage})` }}
@@ -144,14 +144,14 @@ export default function GameScreen() {
           className="relative w-full h-full object-cover object-[center_30%]"
           alt="preview"
         />
-        <div className="absolute inset-y-0 left-0 w-32 bg-linear-to-r from-[#060a0f] to-transparent pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-linear-to-l from-[#060a0f] to-transparent pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 hidden w-32 bg-linear-to-r from-[#060a0f] to-transparent pointer-events-none sm:block" />
+        <div className="absolute inset-y-0 right-0 hidden w-32 bg-linear-to-l from-[#060a0f] to-transparent pointer-events-none sm:block" />
         <div className="absolute inset-0 bg-linear-to-t from-[#060a0f] via-[#060a0f]/40 to-transparent pointer-events-none" />
       </div>
 
       {/* TITRE + BADGES */}
-      <div className="px-6 py-6">
-        <h1 className="text-white text-4xl font-bold font-['Orbitron']">
+      <div className="px-4 py-4 sm:px-6 sm:py-6">
+        <h1 className="text-2xl font-bold text-white font-['Orbitron'] sm:text-4xl">
           {data?.data?.title}
         </h1>
         <div className="flex gap-3 mt-3">
@@ -174,7 +174,7 @@ export default function GameScreen() {
       </div>
 
       {/* CONTENU PRINCIPAL */}
-      <div className="flex gap-8 px-6 pb-8">
+      <div className="flex flex-col-reverse gap-6 px-4 pb-8 lg:flex-row lg:gap-8 sm:px-6">
         {/* COLONNE GAUCHE */}
         <div className="flex-1 min-w-0">
           <h2 className="text-[#F1F5F8] text-lg font-semibold mb-3">
@@ -200,7 +200,7 @@ export default function GameScreen() {
               <h2 className="text-[#F1F5F8] text-lg font-semibold mb-4">
                 Screenshots
               </h2>
-              <div className="relative w-full max-w-[80%] aspect-video rounded-2xl overflow-hidden border border-[#1a2d40] mb-3 group">
+              <div className="relative mb-3 aspect-video w-full max-w-full overflow-hidden rounded-2xl border border-[#1a2d40] group lg:max-w-[80%]">
                 <img
                   src={screenshots[activeIndex]}
                   alt={`Screenshot ${activeIndex + 1}`}
@@ -216,7 +216,7 @@ export default function GameScreen() {
                       prev === 0 ? screenshots.length - 1 : prev - 1,
                     )
                   }
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-[#2D4A63] hover:border-[#7C3AED]/60 hover:bg-[#5B21B6]/30 text-[#F1F5F8] text-lg flex items-center justify-center transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100"
+                  className="absolute left-3 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#2D4A63] bg-black/60 text-lg text-[#F1F5F8] backdrop-blur-sm transition-all duration-200 hover:border-[#7C3AED]/60 hover:bg-[#5B21B6]/30 opacity-100 md:opacity-0 md:group-hover:opacity-100"
                 >
                   ‹
                 </button>
@@ -226,7 +226,7 @@ export default function GameScreen() {
                       prev === screenshots.length - 1 ? 0 : prev + 1,
                     )
                   }
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 backdrop-blur-sm border border-[#2D4A63] hover:border-[#7C3AED]/60 hover:bg-[#5B21B6]/30 text-[#F1F5F8] text-lg flex items-center justify-center transition-all duration-200 cursor-pointer opacity-0 group-hover:opacity-100"
+                  className="absolute right-3 top-1/2 flex h-8 w-8 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-[#2D4A63] bg-black/60 text-lg text-[#F1F5F8] backdrop-blur-sm transition-all duration-200 hover:border-[#7C3AED]/60 hover:bg-[#5B21B6]/30 opacity-100 md:opacity-0 md:group-hover:opacity-100"
                 >
                   ›
                 </button>
@@ -255,7 +255,7 @@ export default function GameScreen() {
         </div>
 
         {/* COLONNE DROITE */}
-        <div className="w-72 flex flex-col gap-4 shrink-0">
+        <div className="flex w-full shrink-0 flex-col gap-4 lg:w-72">
           <div>
             <span className="text-[#4a6078] text-xs uppercase tracking-wider">
               Sortie
@@ -480,7 +480,7 @@ export default function GameScreen() {
           ) : (
             <Button
               text="+ Ajouter à ma bibliothèque"
-              className="w-72"
+              className="w-full"
               type="button"
               onClick={handleAdd}
               variant="primary"

@@ -34,8 +34,8 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#060a0f]">
-      <div className=" gap-6 basis-1/2 bg-linear-to-r from-[rgba(91,33,182,0.15)] to-transparent flex flex-col items-center justify-center">
+    <div className="flex min-h-screen flex-col bg-[#060a0f] md:flex-row">
+      <div className="hidden basis-1/2 flex-col items-center justify-center gap-6 bg-linear-to-r from-[rgba(91,33,182,0.15)] to-transparent md:flex">
         <img className={"w-40"} src={logo_Respawn} />
         <h1
           className={
@@ -53,7 +53,13 @@ export default function Signin() {
           jeux.
         </p>
       </div>
-      <div className="  basis-1/2 flex items-center justify-center bg-[#060a0f]">
+      <div className="flex flex-1 flex-col items-center justify-center bg-[#060a0f] px-4 py-10 md:basis-1/2">
+        <div className="mb-6 flex flex-col items-center gap-2 md:hidden">
+          <img className="w-16" src={logo_Respawn} alt="Respawn" />
+          <h1 className="text-xl font-semibold tracking-widest text-[#C084FC] font-[Orbitron]">
+            RESPAWN
+          </h1>
+        </div>
         <Card>
           <div className="flex flex-col gap-2">
             <h2 className="text-2xl text-[#F1F5F8] font-semibold tracking-widest">
