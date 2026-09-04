@@ -78,8 +78,11 @@ export default function Home() {
     );
 
   const gameToDisplay =
-    searchResults.length > 0 ? searchResults : data.slice(1);
-
+    searchResults.length > 0
+      ? searchResults
+      : activeTab === "trending"
+        ? data.slice(1)
+        : data;
   const topGame = data?.[0];
 
   const isTopGameAdded =
