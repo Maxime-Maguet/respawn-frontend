@@ -5,6 +5,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@custom-variant desktop {
+  @media (width >= 1024px) and (pointer: fine) and (hover: hover) {
+    @slot;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
 }

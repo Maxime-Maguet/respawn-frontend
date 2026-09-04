@@ -11,7 +11,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-[#2D4A63]/80 bg-[#0d1520] pb-[env(safe-area-inset-bottom)] md:hidden">
+    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-[#2D4A63]/80 bg-[#0d1520] pb-[env(safe-area-inset-bottom)] desktop:hidden">
       <div className="flex">
         {items.map((item) => {
           const Icon = item.icon;
